@@ -1,0 +1,27 @@
+*{
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: 15px;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.login{
+    background-color: rgba(232, 232, 232, 0.922);
+    margin: 100px;
+    max-width: 350px;
+    min-width: 300px;
+    min-height: 300px;
+    text-align: center;
+    border-color: black;
+    border-style: solid;
+}
+
+h3{
+    color: red;
+}
