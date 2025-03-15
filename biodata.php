@@ -13,6 +13,7 @@
     $sd = $_SESSION["biodata"]["SD"];
     $smp = $_SESSION["biodata"]["SMP"];
     $sma = $_SESSION["biodata"]["SMA"];
+    $foto = $_SESSION["biodata"]["foto"];
 
 ?>
 
@@ -28,6 +29,7 @@
 <body>
     <div class="box">
         <div class="left">
+            <img src=<?php echo $foto;?> alt="foto diri">
             <h2 class="nama"><?php echo $nama; ?></h2>
             <p class="email"><?php echo $email; ?></p>
             <p class="tgl">Tgl Lahir : <br><?php echo $tglLahir; ?></p>

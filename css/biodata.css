@@ -10,6 +10,15 @@ body {
     text-align: center;
 }
 
+img{
+    width: 65%;
+    height: auto;
+    border-style: solid;
+    border-color: black;
+    margin-top: 20px;
+    max-height: 100px;
+}
+
 .box {
     width: 70%;
     background-color: rgb(232, 232, 232, 0.922);
@@ -38,6 +47,8 @@ body {
 .tgl, .alamat {
     margin-top: 100px;
 }
+
+
 
 .edukasi{
     text-align: left;

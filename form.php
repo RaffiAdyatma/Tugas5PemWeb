@@ -11,9 +11,6 @@
     }
 
     function handleBiodata(){
-
-        
-
         if ($_POST["nama"]=="") {
             return "Kolom Nama Kosong";
         }
@@ -26,18 +23,53 @@
         else if ($_POST["SD"]=="" || $_POST["SMP"]=="" || $_POST["SMA"]=="") {
             return "Isi Semua Kolom Yang Kosong";
         }
-        else{
-            $_SESSION["biodata"]["nama"] = $_POST["nama"];
-            $_SESSION["biodata"]["tglLahir"] = $_POST["tglLahir"];
-            $_SESSION["biodata"]["alamat"] = $_POST["alamat"];
-            $_SESSION["biodata"]["SD"] = $_POST["SD"];
-            $_SESSION["biodata"]["SMP"] = $_POST["SMP"];
-            $_SESSION["biodata"]["SMA"] = $_POST["SMA"];
-            
-            header("Location: biodata.php");
-            exit;
+
+
+        if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] === 0) {
+            $filename = $_FILES["foto"]["name"];
+            $filetype = $_FILES["foto"]["type"];
+            $filesize = $_FILES["foto"]["size"];
+
+            // memastikan folder upload tersedia
+            $uploadDir = "upload/";
+            if (!is_dir($uploadDir)) {
+                mkdir($uploadDir, 0755, true);
+            }
+
+            // extensi file (.png / .jpeg / .jpg)
+            $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION)); 
+
+            // membuat nama file
+            $destination = $uploadDir . "foto." . $ext;
+
+            // jika sudah ada dalam folder maka dihapus dulu
+            // bagian ini bisa dihapus/dikomen, hanya ada untuk save space
+            if (file_exists($destination)) {
+                unlink($destination);
+            }
+
+            // copy file dari temp ke folder upload
+            if (!move_uploaded_file($_FILES["foto"]["tmp_name"], $destination)) {
+                return "Error: gagal menyimpan gambar";
+            }
+        } else {
+            return "tidak ada foto diri";
         }
-        
+
+
+
+        $_SESSION["biodata"]["nama"] = $_POST["nama"];
+        $_SESSION["biodata"]["tglLahir"] = $_POST["tglLahir"];
+        $_SESSION["biodata"]["alamat"] = $_POST["alamat"];
+        $_SESSION["biodata"]["SD"] = $_POST["SD"];
+        $_SESSION["biodata"]["SMP"] = $_POST["SMP"];
+        $_SESSION["biodata"]["SMA"] = $_POST["SMA"];
+
+        $_SESSION["biodata"]["foto"] = $destination;
+
+        header("Location: biodata.php");
+        exit;
+
     }
 
 ?>
@@ -53,7 +85,7 @@
 
         <h2 class="dataDiri">Data Diri</h2>
 
-        <form action="" method="post">
+        <form action="" enctype="multipart/form-data" method="post">
             <p>Nama      : <input type="text" name="nama"
                 <?php
                     echo isset($_POST["nama"]) ? 'value="'.$_POST["nama"].'"' : "";
@@ -86,6 +118,10 @@
                     echo isset($_POST["SMA"]) ? 'value="'.$_POST["SMA"].'"' : "";
                 ?>
             ></p><br>
+            <p class="foto">Pilih Foto untuk biodata<br>
+            <input  type="file" 
+                    name="foto" 
+                    accept="image/*"></p>
             <p class="submitButton"><input type="submit" name="submit" value="submit"></p>
         </form>
 
